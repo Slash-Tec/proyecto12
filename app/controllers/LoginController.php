@@ -11,9 +11,22 @@ class LoginController extends Controller
 
     public function index()
     {
+        if (isset($_COOKIE['shoplogin'])) {
+            $value = explode('|', $_COOKIE['shoplogin']);
+            $dataForm = [
+                'user' => $value[0],
+                'password' => $value[1],
+                'remember' => 'on'
+            ];
+
+        } else {
+            $dataForm = null;
+        }
+
         $data = [
             'title' => 'Login',
             'menu' => false,
+            'data' => $dataForm,
         ];
 
         $this->view('login', $data);
@@ -231,14 +244,125 @@ class LoginController extends Controller
 
     public function changePassword($data)
     {
-        $data = [
-            'title' => 'Cambia tu contraseña de acceso',
-            'menu' => false,
-            'data' => $data,
-            'subtitle' => 'Cambia tu contraseña de acceso',
-        ];
+        $errors = [];
 
-        $this->view('changepassword', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $id = $_POST['id'] ?? '';
+            $password1 = $_POST['password1'] ?? '';
+            $password2 = $_POST['password2'] ?? '';
+
+            if ($id == '') {
+                array_push($errors, 'El usuario no existe');
+            }
+            if($password1 == '') {
+                array_push($errors, 'La contraseña es requerida');
+            }
+            if($password2 == '') {
+                array_push($errors, 'Repetir la contraseña es requerido');
+            }
+            if ($password1 != $password2) {
+                array_push($errors, 'Ambas contraseñas deben ser iguales');
+            }
+
+            if (count($errors)) {
+                $dataView = [
+                    'title' => 'Cambia tu contraseña de acceso',
+                    'menu' => false,
+                    'errors' => $errors,
+                    'data' => $data,
+                    'subtitle' => 'Cambia tu contraseña de acceso',
+                ];
+                $this->view('changepassword', $dataView);
+            } else {
+
+                if ($this->model->changePassword($id, $password1)) {
+
+                    $dataView = [
+                        'title' => 'Modificar la contraseña',
+                        'menu' => false,
+                        'subtitle' => 'Modificación de la contraseña',
+                        'text' => 'La contraseña ha sido cambiada correctamente. Bienvenid@ de nuevo',
+                        'color' => 'alert-success',
+                        'url' => 'login',
+                        'colorButton' => 'btn-success',
+                        'textButton' => 'Regresar',
+                    ];
+
+                    $this->view('mensaje', $dataView);
+
+                } else {
+
+                    $dataView = [
+                        'title' => 'Error al modificar la contraseña',
+                        'menu' => false,
+                        'subtitle' => 'Error al modificar la contraseña',
+                        'text' => 'La contraseña no ha sido cambiada debido a un error interno. Pruebe otra vez en unos minutos',
+                        'color' => 'alert-danger',
+                        'url' => 'login',
+                        'colorButton' => 'btn-danger',
+                        'textButton' => 'Regresar',
+                    ];
+
+                    $this->view('mensaje', $dataView);
+
+                }
+            }
+
+        } else {
+
+            $dataView = [
+                'title' => 'Cambia tu contraseña de acceso',
+                'menu' => false,
+                'data' => $data,
+                'subtitle' => 'Cambia tu contraseña de acceso',
+            ];
+
+            $this->view('changepassword', $dataView);
+        }
     }
 
+    public function verifyUser()
+    {
+        $errors = [];
+
+        $user = $_POST['user'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $remember = $_POST['remember'] ?? '';
+
+        $value = $user . '|' . $password;
+        if ($remember == 'on') {
+            $date = time() + (60*60*24*7);
+        } else {
+            $date = time() - 1;
+        }
+
+        setcookie('shoplogin', $value, $date, dirname(__DIR__) . ROOT);
+
+        $errors = $this->model->verifyUser($user, $password);
+
+        $dataForm = [
+            'user' => $user,
+            'password' => $password,
+            'remember' => $remember,
+        ];
+
+        if ( ! $errors ) {
+
+            $data = $this->model->getUserByEmail($user);
+            $session = new Session();
+            $session->login($data);
+
+            header('location:' . ROOT . 'shop');
+        } else {
+
+            $data = [
+                'title' => 'Login',
+                'menu' => false,
+                'errors' => $errors,
+                'data' => $dataForm,
+            ];
+            $this->view('login', $data);
+        }
+    }
 }

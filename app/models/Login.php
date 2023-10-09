@@ -25,7 +25,7 @@ class Login
 
         if ( ! $this->existsEmail($data['email'])) {
 
-            $password = hash_hmac('sha512', $data['password1'], 'elperrodesanroque');
+            $password = hash_hmac('sha512', $data['password1'], ENCRIPTKEY);
 
             $sql = 'INSERT INTO users(first_name, last_name_1, last_name_2, email, address, city, state, postcode, country, password) VALUES (:first_name, :last_name_1, :last_name_2, :email, :address, :city, :state, :postcode, :country, :password)';
 
@@ -74,5 +74,36 @@ class Login
         $subject = "Cambiar la contraseña en proyecto12";
 
         return mail($email, $subject, $msg, $headers);
+    }
+
+    public function changePassword($id, $password)
+    {
+        $pass = hash_hmac('sha512', $password, ENCRIPTKEY);
+        $sql = 'UPDATE users SET password=:password WHERE id=:id';
+        $params = [
+            ':id' => $id,
+            ':password' => $pass,
+        ];
+        $query = $this->db->prepare($sql);
+        $response = $query->execute($params);
+
+        return $response;
+    }
+
+    public function verifyUser($email, $password)
+    {
+        $errors = [];
+
+        $pass = hash_hmac('sha512', $password, ENCRIPTKEY);
+
+        $user = $this->getUserByEmail($email);
+
+        if ( ! $user ) {
+            array_push($errors, 'El usuario no existe en nuestros registros');
+        } elseif ($user->password != $pass) {
+            array_push($errors, 'La contraseña no es correcta');
+        }
+
+        return $errors;
     }
 }
