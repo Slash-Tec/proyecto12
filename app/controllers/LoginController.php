@@ -163,14 +163,22 @@ class LoginController extends Controller
     public function olvido()
     {
         $errors = [];
+        $email = '';
 
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+
+            if (isset($_SESSION['olvido_form_data'])) {
+                $email = $_SESSION['olvido_form_data']['email'];
+                $errors = $_SESSION['olvido_form_data']['errors'];
+                unset($_SESSION['olvido_form_data']);
+            }
 
             $data = [
                 'title' => 'Olvido de la contraseña',
                 'menu' => false,
                 'errors' => [],
-                'subtitle' => '¿Olvidaste tu contraseña?'
+                'subtitle' => '¿Olvidaste tu contraseña?',
+                'email' => $email,
             ];
 
             $this->view('olvido', $data);
@@ -227,11 +235,14 @@ class LoginController extends Controller
 
             if (count($errors) > 0) {
 
+                $_SESSION['olvido_form_data'] = ['email' => $email, 'errors' => $errors];
+
                 $data = [
                     'title' => 'Olvido de la contraseña',
                     'menu' => false,
                     'errors' => $errors,
-                    'subtitle' => '¿Olvidaste tu contraseña?'
+                    'subtitle' => '¿Olvidaste tu contraseña?',
+                    'email' => $email,
                 ];
 
                 $this->view('olvido', $data);
