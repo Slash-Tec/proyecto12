@@ -68,10 +68,10 @@ class Login
 
         $headers = 'MIME-Version: 1.0\r\n';
         $headers .= 'Content-type:text/html; charset=UTF-8\r\n';
-        $headers .= 'FROM: proyecto12\r\n';
-        $headers .= 'Reply-to: admin@proyecto12.local';
+        $headers .= 'FROM: mvctienda\r\n';
+        $headers .= 'Reply-to: admin@mvctienda.local';
 
-        $subject = "Cambiar la contraseña en proyecto12";
+        $subject = "Cambiar la contraseña en mvctienda";
 
         return mail($email, $subject, $msg, $headers);
     }
