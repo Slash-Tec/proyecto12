@@ -14,7 +14,7 @@
         <form action="<?= ROOT ?>login/olvido" method="POST">
             <div class="form-group text-left mb-2">
                 <label for="email">Correo electrónico:</label>
-                <input type="email" name="email" class="form-control"value="<?= isset($data['email']) ? $data['email'] : '' ?>">
+                <input type="email" name="email" class="form-control">
             </div>
             <div class="form-group text-left">
                 <input type="submit" value="Enviar" class="btn btn-success">
