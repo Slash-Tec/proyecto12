@@ -1,13 +1,7 @@
 <?php
-
-class Shop
+include __DIR__ . '/../libs/Models.php';
+class Shop extends Models
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = MySQLdb::getInstance()->getDatabase();
-    }
 
     public function getMostSold()
     {

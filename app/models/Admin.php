@@ -1,13 +1,7 @@
 <?php
-
-class Admin
+include __DIR__ . '/../libs/Models.php';
+class Admin extends Models
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = MySQLdb::getInstance()->getDatabase();
-    }
 
     public function verifyUser($data)
     {

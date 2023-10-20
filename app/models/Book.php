@@ -1,13 +1,7 @@
 <?php
-
-class Book
+include __DIR__ . '/../libs/Models.php';
+class Book extends Models
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = MySQLdb::getInstance()->getDatabase();
-    }
 
     public function getBooks()
     {

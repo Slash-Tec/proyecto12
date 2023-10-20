@@ -1,13 +1,7 @@
 <?php
-
-class AdminProduct
+include __DIR__ . '/../libs/Models.php';
+class AdminProduct extends Models
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = MySQLdb::getInstance()->getDatabase();
-    }
 
     public function getProducts()
     {

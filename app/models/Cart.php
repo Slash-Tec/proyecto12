@@ -1,13 +1,7 @@
 <?php
-
-class Cart
+include __DIR__ . '/../libs/Models.php';
+class Cart extends Models
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = MySQLdb::getInstance()->getDatabase();
-    }
 
     public function verifyProduct($product_id, $user_id)
     {

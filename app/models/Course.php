@@ -1,13 +1,7 @@
 <?php
-
-class Course
+include __DIR__ . '/../libs/Models.php';
+class Course extends Models
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = MySQLdb::getInstance()->getDatabase();
-    }
 
     public function getCourses()
     {

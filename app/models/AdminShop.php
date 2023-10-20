@@ -1,11 +1,6 @@
 <?php
-
-class AdminShop
+include __DIR__ . '/../libs/Models.php';
+class AdminShop extends Models
 {
-    private $db;
 
-    public function __construct()
-    {
-        $this->db = MySQLdb::getInstance()->getDatabase();
-    }
 }
