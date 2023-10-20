@@ -1,7 +1,13 @@
 <?php
-include __DIR__ . '/../libs/Models.php';
-class Cart extends Models
+
+class Cart
 {
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = MySQLdb::getInstance()->getDatabase();
+    }
 
     public function verifyProduct($product_id, $user_id)
     {
@@ -43,5 +49,56 @@ class Cart extends Models
         $query2->execute($params2);
 
         return $query2->rowCount();
+    }
+
+    public function getCart($user_id)
+    {
+        $sql = 'SELECT c.user_id as user, c.product_id as product, c.quantity as quantity, c.send as send, c.discount as discount, p.price as price, p.image as image, p.description as description, p.name as name
+                FROM carts as c, products as p
+                WHERE c.product_id=p.id
+                AND c.user_id=:user_id
+                AND state=0';
+
+        $query = $this->db->prepare($sql);
+        $query->execute([':user_id' => $user_id]);
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function update($user_id, $product_id, $quantity)
+    {
+        $sql = 'UPDATE carts SET quantity=:quantity WHERE user_id=:user_id AND product_id=:product_id';
+
+        $query = $this->db->prepare($sql);
+        $params = [
+            ':user_id' => $user_id,
+            ':product_id' => $product_id,
+            ':quantity' => $quantity,
+        ];
+
+        return $query->execute($params);
+    }
+
+    public function delete($product, $user)
+    {
+        $sql = 'DELETE FROM carts WHERE user_id=:user_id AND product_id=:product_id';
+        $query = $this->db->prepare($sql);
+        $params = [
+            ':user_id' => $user,
+            ':product_id' => $product,
+        ];
+        return $query->execute($params);
+    }
+
+    public function closeCart($id, $state)
+    {
+        $sql = 'UPDATE carts SET state=:state, date=:date WHERE user_id=:user_id AND state=0';
+        $query = $this->db->prepare($sql);
+        $params = [
+            ':user_id' => $id,
+            ':state' => $state,
+            ':date' => date('Y-m-d H:i:s'),
+        ];
+        return $query->execute($params);
     }
 }

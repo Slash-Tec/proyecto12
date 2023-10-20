@@ -1,8 +1,13 @@
 <?php
 
-include __DIR__ . '/../libs/Models.php';
-class Login extends Models
+class Login
 {
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = MySQLdb::getInstance()->getDatabase();
+    }
 
     public function existsEmail($email)
     {

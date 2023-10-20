@@ -1,7 +1,13 @@
 <?php
-include __DIR__ . '/../libs/Models.php';
-class AdminUser extends Models
+
+class AdminUser
 {
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = MySQLdb::getInstance()->getDatabase();
+    }
 
     public function createAdminUser($data)
     {

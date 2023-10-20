@@ -1,7 +1,13 @@
 <?php
-include __DIR__ . '/../libs/Models.php';
-class Search extends Models
+
+class Search
 {
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = MySQLdb::getInstance()->getDatabase();
+    }
 
     public function getProducts($string)
     {
