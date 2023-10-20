@@ -1,6 +1,6 @@
 <?php
 
-class AdminUserController extends Controller
+class AdminuserController extends Controller
 {
     private $model;
 
