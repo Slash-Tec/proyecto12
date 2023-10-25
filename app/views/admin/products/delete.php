@@ -6,7 +6,7 @@
         <h1 class="text-center">Baja de un producto</h1>
     </div>
     <div class="card-body">
-        <form action="<?= ROOT ?>adminProduct/delete/<?= $data['product']->id ?>" method="POST" enctype="multipart/form-data">
+        <form action="<?= ROOT ?>adminproduct/delete/<?= $data['product']->id ?>" method="POST" enctype="multipart/form-data">
             <div class="form-control text-left">
                 <label for="type">Tipo de producto</label>
                 <select name="type" id="type" class="form-control" disabled>

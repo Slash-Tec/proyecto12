@@ -1,6 +1,6 @@
 <?php
 
-class AdminProductController extends Controller
+class AdminproductController extends Controller
 {
     private $model;
 
@@ -160,7 +160,7 @@ class AdminProductController extends Controller
 
                 if ($this->model->createProduct($dataForm)) {
                     //Redirigimos al index de productos
-                    header('location:' . ROOT . 'adminProduct');
+                    header('location:' . ROOT . 'adminproduct');
                 }
                 array_push($errors, 'Se ha producido un error durante la inserción en la BD');
             }
@@ -307,7 +307,7 @@ class AdminProductController extends Controller
 
                 if ( ! $this->model->updateProduct($dataForm)) {
                     //Redirigimos al index de productos
-                    header('location:' . ROOT . 'adminProduct');
+                    header('location:' . ROOT . 'adminproduct');
                 }
 
                 array_push($errors, 'Se ha producido un error durante la actualización en la BD');
@@ -338,7 +338,7 @@ class AdminProductController extends Controller
             $errors = $this->model->delete($id);
 
             if (empty($errors)) {
-                header('location:' . ROOT . 'adminProduct');
+                header('location:' . ROOT . 'adminproduct');
             }
         }
 
