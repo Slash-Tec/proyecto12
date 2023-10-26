@@ -21,16 +21,9 @@
                 </div>
             <?php endif; ?>
         <?php endforeach; ?>
-        
-        <div class="alert alert-info mt-3">
-            <?php
-            if (isset($data['testMessage'])) {
-                echo 'Mensaje de prueba: ' . $data['testMessage'];
-            }
-            ?>
-        </div>
     </div>
     <div class="card-footer">
+
     </div>
 </div>
 <?php include_once (VIEWS . 'footer.php') ?>
