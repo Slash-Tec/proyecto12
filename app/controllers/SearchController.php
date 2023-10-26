@@ -13,7 +13,8 @@ class SearchController extends Controller
     {
         $search = $_POST['search'] ?? '';
 
-        if ($search != '') {
+        if (!empty($search)) {
+            $search = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
 
             $dataSearch = $this->model->getProducts($search);
 
@@ -23,6 +24,7 @@ class SearchController extends Controller
                     'data' => $dataSearch,
                     'menu' => true,
                     'subtitle' => 'Buscador de productos',
+                    'testMessage' => '¡La seguridad funciona correctamente!'
                 ];
 
                 $this->view('search/index', $data);
