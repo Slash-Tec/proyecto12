@@ -9,27 +9,6 @@ class SearchController extends Controller
         $this->model = $this->model('Search');
     }
 
-    public function index()
-    {
-        $session = new Session();
-
-        if ($session->getLogin()) {
-
-            $dataSearch = $this->model->getProducts($search);
-
-            $data = [
-                'title' => 'Buscador de productos',
-                'data' => $dataSearch,
-                'menu' => true,
-                'subtitle' => 'Buscador de productos',
-            ];
-
-            $this->view('search/index', $data);
-        } else {
-            header('location:' . ROOT);
-        }
-    }
-
     public function products()
     {
         $search = $_POST['search'] ?? '';

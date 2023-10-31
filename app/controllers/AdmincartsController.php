@@ -9,27 +9,6 @@ class AdmincartsController extends Controller
         $this->model = $this->model('AdminCart');
     }
 
-    public function index()
-    {
-        $session = new Session();
-
-        if ($session->getLogin()) {
-
-            $data = [
-                'title' => 'Administración - Inicio',
-                'menu' => false,
-                'admin' => true,
-                'subtitle' => 'Administración de la tienda',
-            ];
-
-            $this->view('admincarts/sales', $data);
-
-        } else {
-            header('location:' . ROOT . 'admin');
-        }
-
-    }
-
     public function sales()
     {
         $sales = $this->model->sales();
