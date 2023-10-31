@@ -11,15 +11,13 @@ class CartController extends Controller
 
     public function index($errors = [])
     {
-        $session = new Session();
-        if ($session->getLogin()) {
-            $user_id = $session->getUserId();
-            $cart = $this->model->getCart($user_id);
+        $session =  new Session();
 
-            if (empty($cart)) {
-                header('location:' . ROOT . 'shop');
-                return;
-            }
+        if ($session->getLogin()) {
+
+            $user_id = $session->getUserId();
+
+            $cart = $this->model->getCart($user_id);
 
             $data = [
                 'title' => 'Carrito',
@@ -30,6 +28,7 @@ class CartController extends Controller
             ];
 
             $this->view('carts/index', $data);
+
         } else {
             header('location:' . ROOT);
         }
