@@ -1,8 +1,17 @@
 <?php include_once (VIEWS . 'header.php') ?>
 <?php $verify = false; $subtotal = 0; $send = 0; $discount = 0; $user_id = $data['user_id'] ?>
+
 <h2 class="text-center">
     Carrito de Compra
 </h2>
+
+<?php if (empty($data['data'])): ?>
+    <div class="alert alert-info">
+        Tu carrito está vacío. ¡Ve de compras y llena tu carrito!
+    </div>
+    <a href="<?= ROOT ?>shop" class="btn btn-info" role="button">Seguir Comprando</a>
+<?php else: ?>
+
     <form action="<?= ROOT ?>cart/update" method="POST">
         <table class="table table-stripped" style="width: 100%">
             <tr>
@@ -74,5 +83,7 @@
             </tr>
         </table>
     </form>
+
+<?php endif; ?>
 
 <?php include_once (VIEWS . 'footer.php') ?>
