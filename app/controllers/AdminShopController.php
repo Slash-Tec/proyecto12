@@ -27,7 +27,5 @@ class AdminShopController extends Controller
         } else {
             header('location:' . ROOT . 'admin');
         }
-
-
     }
 }

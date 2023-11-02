@@ -1,13 +1,15 @@
 <?php include_once (VIEWS . 'header.php') ?>
 <div class="card" id="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Iniciar Sesión</a></li>
-            <li class="breadcrumb-item"><a href="#">Datos de envío</a></li>
-            <li class="breadcrumb-item"><a href="#">Forma de pago</a></li>
-            <li class="breadcrumb-item">Verificar los datos</li>
-        </ol>
-    </nav>
+    <?php if (isset($data['breadcrumb']) && $data['breadcrumb']) : ?>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Iniciar Sesión</a></li>
+                <li class="breadcrumb-item"><a href="checkout">Datos de envío</a></li>
+                <li class="breadcrumb-item"><a href="paymentmode">Forma de pago</a></li>
+                <li class="breadcrumb-item">Verificar los datos</li>
+            </ol>
+        </nav>
+    <?php endif; ?>
     <div class="card-header">
         <h1><?= $data['title'] ?></h1>
         <p>Por favor, verifique los datos antes de continuar</p>
@@ -17,11 +19,11 @@
 
         Método de pago: <?= $data['payment'] ?><br>
         Nombre: <?= $data['user']->first_name ?> <?= $data['user']->last_name_1 ?> <?= $data['user']->last_name_2 ?><br>
-        Dirección: <?= $data['user']->address ?><br>
-        Ciudad: <?= $data['user']->city ?><br>
-        Estado: <?= $data['user']->state ?><br>
-        Código Postal: <?= $data['user']->postcode ?><br>
-        País: <?= $data['user']->country ?><br>
+        Dirección: <?= $data['address']->address ?><br> <!-- Cambiar a address -->
+        Ciudad: <?= $data['address']->city ?><br> <!-- Cambiar a city -->
+        Estado: <?= $data['address']->state ?><br> <!-- Cambiar a state -->
+        Código Postal: <?= $data['address']->postcode ?><br> <!-- Cambiar a postcode -->
+        País: <?= $data['address']->country ?><br>
 
         <table class="table table-stripped" style="width: 100%">
             <tr>

@@ -9,7 +9,7 @@ class MySQLdb
     //Datos de la conexión
     private $host = 'mysql';
     private $user = 'default';
-    private $pass = 'secret';
+    private $pass = 'root';
     private $dbname = 'proyecto12';
 
     //Atributos

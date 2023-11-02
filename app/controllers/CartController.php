@@ -75,6 +75,60 @@ class CartController extends Controller
         $this->index($errors);
     }
 
+    public function address()
+    {
+        $session = new Session();
+        if ($session->getLogin()) {
+            $user_id = $session->getUserId();
+
+            $addressModel = $this->model('Address');
+            $address = $addressModel->getAddressByUserId($user_id);
+
+            $data = [
+                'title' => 'Carrito | Datos de envío',
+                'subtitle' => 'Carrito | Verificar dirección de envío',
+                'menu' => true,
+                'user_id' => $user_id,
+                'address' => $address,
+            ];
+
+            $this->view('carts/address', $data);
+        } else {
+            header('location:' . ROOT);
+        }
+    }
+
+    public function updateAddress()
+    {
+        if (isset($_POST)) {
+            $session = new Session();
+            if ($session->getLogin()) {
+                $user_id = $session->getUserId();
+
+                $first_name = $_POST['first_name'];
+                $last_name_1 = $_POST['last_name_1'];
+                $last_name_2 = $_POST['last_name_2'];
+                $email = $_POST['email'];
+                $address = $_POST['address'];
+                $city = $_POST['city'];
+                $state = $_POST['state'];
+                $postcode = $_POST['postcode'];
+                $country = $_POST['country'];
+
+                $addressModel = $this->model('Address');
+                $existingAddress = $addressModel->getAddressByUserId($user_id);
+
+                if ($existingAddress) {
+                    $addressModel->updateAddress($user_id, $address, $city, $state, $postcode, $country);
+                } else {
+                    $addressModel->insertAddress($user_id, $address, $city, $state, $postcode, $country);
+                }
+
+                header('location:' . ROOT . 'cart/paymentmode');
+            }
+        }
+    }
+
     public function checkout()
     {
         $session = new Session();
@@ -119,10 +173,16 @@ class CartController extends Controller
         $cart = $this->model->getCart($user->id);
         $payment = $_POST['payment'] ?? '';
 
+        $addressModel = $this->model('Address');
+        $address = $addressModel->getAddressByUserId($user->id);
+
         $data = [
             'title' => 'Carrito | Verificar los datos',
+            'subtitle' => 'Carrito | Verificar los datos',
+            'breadcrumb' => true,
             'payment' => $payment,
             'user' => $user,
+            'address' => $address,
             'data' => $cart,
             'menu' => true,
         ];

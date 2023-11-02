@@ -3,7 +3,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Iniciar Sesión</a></li>
-            <li class="breadcrumb-item"><a href="#">Datos de envío</a></li>
+            <li class="breadcrumb-item"><a href="checkout">Datos de envío</a></li>
             <li class="breadcrumb-item">Forma de pago</li>
             <li class="breadcrumb-item"><a href="#">Verificar los datos</a></li>
         </ol>
